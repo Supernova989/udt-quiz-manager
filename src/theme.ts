@@ -1,5 +1,5 @@
 import { createTheme } from "@material-ui/core/styles";
-import { blue, grey } from "@material-ui/core/colors";
+import { blue, common, grey, lightBlue } from "@material-ui/core/colors";
 
 export const theme = createTheme({
   palette: {
@@ -7,7 +7,8 @@ export const theme = createTheme({
       main: blue[500],
     },
     secondary: {
-      main: "#000000",
+      main: lightBlue[300],
+      contrastText: common.white,
     },
   },
   overrides: {
@@ -18,7 +19,7 @@ export const theme = createTheme({
     },
     MuiAppBar: {
       colorPrimary: {
-        backgroundColor: "#000000",
+        backgroundColor: common.black,
       },
     },
   },

@@ -156,11 +156,18 @@ const Header = () => {
     <>
       <AppBar position={"relative"} className={classes.root}>
         <div className={clsx(classes.inner)}>
-          <Typography variant={"h5"}>Manager</Typography>
+          <div>
+            <Typography component={"span"} variant={"subtitle1"}>
+              Quiz Manager
+            </Typography>
+            <Typography className={"ml-2"} component={"span"} variant={"caption"}>
+              (v{require("../../../package.json").version})
+            </Typography>
+          </div>
 
           <div className={classes.grow1} />
 
-          <Button startIcon={<Add />} variant={"contained"} color={"primary"} onClick={setShowAdd.bind(null, true)}>
+          <Button startIcon={<Add />} variant={"outlined"} color={"secondary"} onClick={setShowAdd.bind(null, true)}>
             Add language
           </Button>
 

@@ -5,6 +5,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     root: {},
     inner: {
       padding: theme.spacing(2, 2),
+      alignItems: "center",
       display: "flex",
     },
     grow1: {

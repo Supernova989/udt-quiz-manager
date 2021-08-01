@@ -1,6 +1,6 @@
 import { createStyles, makeStyles } from "@material-ui/core";
 
-export const SIDEBAR_WIDTH = 280;
+export const SIDEBAR_WIDTH = 300;
 
 export const useStyles = makeStyles((theme) =>
   createStyles({

@@ -12,6 +12,7 @@ export type Language = Yup.InferType<typeof languageSchema>;
 
 export interface LanguageState {
   items: Language[];
+  selected?: number;
 }
 
 const initialState: LanguageState = {
@@ -34,6 +35,9 @@ export const languageSlice = createSlice({
     },
     save: (state, { payload }: PayloadAction<Language>) => {
       state.items.push(payload);
+    },
+    select: (state, { payload }: PayloadAction<number>) => {
+      state.selected = payload;
     },
   },
   extraReducers: (builder) => {},

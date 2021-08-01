@@ -22,7 +22,7 @@ function App() {
               <Route exact path={ROUTES.QUESTION_NEW} render={(props) => <QuestionPage {...props} />} />
               <Route exact path={ROUTES.QUESTION} render={(props) => <QuestionPage {...props} />} />
               <Route exact path={ROUTES.LANGUAGE} render={(props) => <LanguagePage {...props} />} />
-              <Route exact path={ROUTES.LANGUAGE} component={() => <Redirect to={"/"} />} />
+              <Route exact path={"/languages"} component={() => <Redirect to={"/"} />} />
               <Route
                 exact
                 component={() => <div id="text-page-placeholder">Please select a language in the sidebar.</div>}
