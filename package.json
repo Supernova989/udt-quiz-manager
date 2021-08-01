@@ -1,0 +1,61 @@
+{
+  "name": "udt-test-cms",
+  "version": "0.1.0",
+  "author": "Max Isaev",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "6.2.0",
+    "@material-ui/core": "4.12.3",
+    "@material-ui/icons": "4.11.2",
+    "@reduxjs/toolkit": "1.6.1",
+    "@testing-library/jest-dom": "4.2.4",
+    "@testing-library/react": "9.5.0",
+    "@testing-library/user-event": "7.2.1",
+    "@types/jest": "24.9.1",
+    "@types/node": "12.20.17",
+    "@types/react": "17.0.15",
+    "@types/react-dom": "17.0.9",
+    "@types/react-redux": "7.1.18",
+    "@types/react-router-dom": "5.1.8",
+    "@types/atob": "2.1.2",
+    "@types/utf8": "3.0.0",
+    "@types/btoa": "1.2.3",
+    "@types/redux-logger": "3.0.9",
+    "atob": "2.1.2",
+    "btoa": "1.2.1",
+    "clsx": "1.1.1",
+    "formik": "2.2.9",
+    "node-sass": "5.0.0",
+    "prettier": "2.3.2",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "7.2.4",
+    "react-router-dom": "5.2.0",
+    "react-scripts": "4.0.3",
+    "redux-logger": "3.0.6",
+    "typescript": "4.1.6",
+    "utf8": "3.0.0",
+    "yup": "0.32.9"
+  },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "prettify": "prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

@@ -1,0 +1,23 @@
+body {
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+}
+
+#main {
+  position: relative;
+}
+
+#text-page-placeholder {
+  color: #cecece;
+  text-align: center;
+  padding: 20vh 2rem 0;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.text-muted {
+  color: rgba(97, 97, 97, 0.87) !important;
+}
+.text-center {
+  text-align: center !important;
+}
