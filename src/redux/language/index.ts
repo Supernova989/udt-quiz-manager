@@ -16,12 +16,12 @@ export interface LanguageState {
 
 const initialState: LanguageState = {
   items: [
-    {
-      id: 1,
-      order: 10,
-      title: "English",
-      total: 0,
-    },
+    // {
+    //   id: 1,
+    //   order: 10,
+    //   title: "English",
+    //   total: 0,
+    // },
   ],
 };
 
@@ -32,7 +32,7 @@ export const languageSlice = createSlice({
     set: (state, { payload }: PayloadAction<Language[]>) => {
       state.items = payload;
     },
-    add: (state, { payload }: PayloadAction<Language>) => {
+    save: (state, { payload }: PayloadAction<Language>) => {
       state.items.push(payload);
     },
   },

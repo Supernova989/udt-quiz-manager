@@ -47,7 +47,7 @@ const Header = () => {
           title: "",
         }}
         onSubmit={(values, formikHelpers) => {
-          dispatch(languageSlice.actions.add(values));
+          dispatch(languageSlice.actions.save(values));
           setShowAdd(false);
         }}
       >

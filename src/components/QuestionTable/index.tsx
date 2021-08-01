@@ -4,8 +4,7 @@ import { useStyles } from "./styles";
 import { useAppSelector } from "../../hooks";
 import { Language } from "../../redux/language";
 import { useHistory, Link } from "react-router-dom";
-import { getQuestionUrl } from "../../shared/utils";
-import { ROUTES } from "../../routes";
+import { getNewQuestionUrl, getQuestionUrl } from "../../shared/utils";
 import {
   IconButton,
   Paper,
@@ -51,7 +50,7 @@ const QuestionTable: FC<Props> = ({ languageId }) => {
                   <TableCell component="td">{id}</TableCell>
                   <TableCell component="td">{title}</TableCell>
                   <TableCell component="td">
-                    <IconButton onClick={() => history.push(getQuestionUrl(id))}>
+                    <IconButton onClick={() => history.push(getQuestionUrl(id, languageId))}>
                       <Edit />
                     </IconButton>
                   </TableCell>
@@ -66,7 +65,7 @@ const QuestionTable: FC<Props> = ({ languageId }) => {
               <TableRow>
                 <TableCell component="td" colSpan={4} className="text-muted text-center">
                   No questions found.{" "}
-                  <Link to={ROUTES.QUESTION_NEW} component={MuiLink}>
+                  <Link to={getNewQuestionUrl(languageId)} component={MuiLink}>
                     Create one?
                   </Link>
                 </TableCell>
@@ -78,7 +77,7 @@ const QuestionTable: FC<Props> = ({ languageId }) => {
 
       {questions.length > 0 && (
         <Button
-          onClick={() => history.push(ROUTES.QUESTION_NEW)}
+          onClick={() => history.push(getNewQuestionUrl(languageId))}
           className={"mt-2"}
           color={"primary"}
           variant={"outlined"}
