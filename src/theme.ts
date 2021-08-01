@@ -13,8 +13,8 @@ export const theme = createTheme({
   overrides: {
     MuiDivider: {
       vertical: {
-        backgroundColor: grey[50]
-      }
+        backgroundColor: grey[50],
+      },
     },
     MuiAppBar: {
       colorPrimary: {

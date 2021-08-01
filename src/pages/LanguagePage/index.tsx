@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from "react";
 import { useAppSelector } from "../../hooks";
 import { RouteComponentProps, useHistory } from "react-router-dom";
+import QuestionTable from "../../components/QuestionTable";
 
-interface Props {
+interface RouteProps {
   id: string;
 }
 
-const LanguagePage: FC<RouteComponentProps<Props>> = ({ match }) => {
+const LanguagePage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
   const history = useHistory();
   const { items } = useAppSelector((s) => s.language);
   const {
@@ -22,8 +23,7 @@ const LanguagePage: FC<RouteComponentProps<Props>> = ({ match }) => {
 
   return (
     <>
-      <h1>Language page</h1>
-      <p>page: {id}</p>
+      <QuestionTable languageId={parseInt(id, 10)} />
     </>
   );
 };

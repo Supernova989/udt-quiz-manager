@@ -2,6 +2,7 @@ import btoa from "btoa";
 import atob from "atob";
 import utf8 from "utf8";
 import { Language } from "../redux/language";
+import { ROUTES } from "../routes";
 
 export function encodeObjectToBase64(object: Record<string, any>): string {
   return btoa(utf8.encode(JSON.stringify(object)));
@@ -21,4 +22,12 @@ export function getLanguageSort(languages: Language[]): Language["order"] {
   const orders = languages.map((l) => l.order);
   const max = Math.max(...orders);
   return Number.isFinite(max) ? max : 0;
+}
+
+export function getQuestionUrl(id: number): string {
+  return ROUTES.QUESTION.replace(/:id/, id.toString());
+}
+
+export function getLanguageUrl(id: number): string {
+  return ROUTES.LANGUAGE.replace(/:id/, id.toString());
 }

@@ -24,12 +24,12 @@ type AddFormFields = Yup.InferType<typeof addSchema>;
 const Header = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const {items: languages} = useAppSelector((s) => s.language)
+  const { items: languages } = useAppSelector((s) => s.language);
   const [showImport, setShowImport] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
   const formImportRef = useRef<FormikProps<ImportFormFields>>(null);
   const formAddRef = useRef<FormikProps<AddFormFields>>(null);
-  
+
   const addDialog = (
     <SimpleDialog
       open={showAdd}
@@ -40,7 +40,12 @@ const Header = () => {
       <Formik
         innerRef={formAddRef}
         validationSchema={addSchema}
-        initialValues={{ id: getLanguageId(languages) + 1, order: getLanguageSort(languages) + 10, total: 0, title: "" }}
+        initialValues={{
+          id: getLanguageId(languages) + 1,
+          order: getLanguageSort(languages) + 10,
+          total: 0,
+          title: "",
+        }}
         onSubmit={(values, formikHelpers) => {
           dispatch(languageSlice.actions.add(values));
           setShowAdd(false);
@@ -113,7 +118,7 @@ const Header = () => {
       </Formik>
     </SimpleDialog>
   );
-  
+
   return (
     <>
       <AppBar position={"relative"} className={classes.root}>
@@ -121,18 +126,13 @@ const Header = () => {
           <Typography variant={"h5"}>Manager</Typography>
 
           <div className={classes.grow1} />
-          
-          <Button
-            startIcon={<Add />}
-            variant={"contained"}
-            color={"primary"}
-            onClick={setShowAdd.bind(null, true)}
-          >
+
+          <Button startIcon={<Add />} variant={"contained"} color={"primary"} onClick={setShowAdd.bind(null, true)}>
             Add language
           </Button>
-          
-          <Divider orientation={"vertical"} className="ml-2" flexItem={true}/>
-          
+
+          <Divider orientation={"vertical"} className="ml-2" flexItem={true} />
+
           <Button
             className="ml-2"
             startIcon={<SystemUpdateAlt />}
@@ -147,10 +147,9 @@ const Header = () => {
           </Button>
         </div>
       </AppBar>
-  
+
       {importDialog}
       {addDialog}
-      
     </>
   );
 };
