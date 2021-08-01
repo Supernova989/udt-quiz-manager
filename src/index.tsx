@@ -8,13 +8,11 @@ import * as serviceWorker from "./serviceWorker";
 import { HashRouter as Router } from "react-router-dom";
 
 const output = (
-  <React.StrictMode>
-    <Provider store={store}>
-      <Router>
-        <App />
-      </Router>
-    </Provider>
-  </React.StrictMode>
+  <Provider store={store}>
+    <Router>
+      <App />
+    </Router>
+  </Provider>
 );
 
 ReactDOM.render(output, document.getElementById("root"));

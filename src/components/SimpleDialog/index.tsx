@@ -6,11 +6,12 @@ interface Props {
   open: boolean;
   title: string;
   text?: string;
+  additionalButtons?: React.ReactNode;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit?: () => void;
 }
 
-const SimpleDialog: FC<Props> = ({ open, title, text, onClose, onSubmit, children }) => {
+const SimpleDialog: FC<Props> = ({ open, title, text, onClose, onSubmit, additionalButtons, children }) => {
   const classes = useStyles();
   return (
     <Dialog open={open} className={classes.root} fullWidth={true}>
@@ -20,12 +21,16 @@ const SimpleDialog: FC<Props> = ({ open, title, text, onClose, onSubmit, childre
         {children}
       </DialogContent>
       <DialogActions>
+        {additionalButtons}
+        <div className={classes.grow1} />
         <Button variant={"outlined"} color={"secondary"} onClick={onClose}>
           Close
         </Button>
-        <Button variant={"contained"} color={"primary"} onClick={onSubmit}>
-          Confirm
-        </Button>
+        {onSubmit && (
+          <Button variant={"contained"} color={"primary"} onClick={onSubmit}>
+            Confirm
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );

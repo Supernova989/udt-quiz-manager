@@ -1,8 +1,8 @@
-import React, { AppBar, Button, Divider, Input, Typography } from "@material-ui/core";
+import React, { AppBar, Button, Divider, Input, TextField, TextFieldProps, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import { SystemUpdateAlt, Launch, Add } from "@material-ui/icons";
 import clsx from "clsx";
-import SimpleDialog from "../Popup";
+import SimpleDialog from "../SimpleDialog";
 import { useRef, useState } from "react";
 import { Formik, FormikErrors, FormikProps } from "formik";
 import * as Yup from "yup";
@@ -10,6 +10,7 @@ import { decodeBase64ToObject, encodeObjectToBase64, getLanguageId, getLanguageS
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { languageSchema, languageSlice } from "../../redux/language";
 import { SavedData, savedDataSchema } from "../../shared/models";
+import { questionSlice } from "../../redux/question";
 
 const importSchema = Yup.object({
   serializedData: Yup.string().required(),
@@ -25,10 +26,19 @@ const Header = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const { items: languages } = useAppSelector((s) => s.language);
+  const { items: questions } = useAppSelector((s) => s.question);
   const [showImport, setShowImport] = useState<boolean>(false);
+  const [showExport, setShowExport] = useState<boolean>(false);
   const [showAdd, setShowAdd] = useState<boolean>(false);
-  const formImportRef = useRef<FormikProps<ImportFormFields>>(null);
-  const formAddRef = useRef<FormikProps<AddFormFields>>(null);
+  const formImportRef = useRef<FormikProps<ImportFormFields> | null>(null);
+  const formAddRef = useRef<FormikProps<AddFormFields> | null>(null);
+  const exportFieldRef = useRef<HTMLInputElement | null>(null);
+
+  const onCopy = () => {
+    exportFieldRef.current?.focus();
+    exportFieldRef.current?.select();
+    document && document.execCommand("copy");
+  };
 
   const addDialog = (
     <SimpleDialog
@@ -52,7 +62,7 @@ const Header = () => {
         }}
       >
         {({ values, errors, touched, handleChange, handleBlur, ...props }) => (
-          <form autoComplete="off" autoCorrect="off" onSubmit={props.handleSubmit}>
+          <form autoComplete="off" spellCheck={false} autoCorrect="off" onSubmit={props.handleSubmit}>
             <Input
               name="title"
               placeholder={"Title"}
@@ -78,7 +88,6 @@ const Header = () => {
         validationSchema={importSchema}
         initialValues={{ serializedData: "" }}
         validate={(values) => {
-          // eyJsYW5ndWFnZXMiOlt7ImlkIjoxLCJ0aXRsZSI6ImZnamZnaiIsIm9yZGVyIjoxLCJ0b3RhbCI6NH1dfQ==
           const errors: FormikErrors<ImportFormFields> = {};
           let validData;
           try {
@@ -95,11 +104,12 @@ const Header = () => {
         onSubmit={(values, formikHelpers) => {
           const data = decodeBase64ToObject<SavedData>(values.serializedData);
           dispatch(languageSlice.actions.set(data.languages));
+          dispatch(questionSlice.actions.set(data.questions));
           setShowImport(false);
         }}
       >
         {({ values, errors, touched, handleChange, handleBlur, ...props }) => (
-          <form autoComplete="off" autoCorrect="off" onSubmit={props.handleSubmit}>
+          <form autoComplete="off" spellCheck={false} autoCorrect="off" onSubmit={props.handleSubmit}>
             <Input
               name="serializedData"
               placeholder={"Enter code here"}
@@ -116,6 +126,29 @@ const Header = () => {
           </form>
         )}
       </Formik>
+    </SimpleDialog>
+  );
+  const exportDialog = (
+    <SimpleDialog
+      open={showExport}
+      title="Export data"
+      onClose={setShowExport.bind(null, false)}
+      additionalButtons={
+        <>
+          <Button onClick={onCopy}>Copy to clipboard</Button>
+        </>
+      }
+    >
+      {showExport && (
+        <TextField
+          inputRef={exportFieldRef}
+          spellCheck={false}
+          autoCorrect="off"
+          autoComplete="off"
+          fullWidth
+          value={encodeObjectToBase64({ languages, questions } as SavedData)}
+        />
+      )}
     </SimpleDialog>
   );
 
@@ -142,7 +175,13 @@ const Header = () => {
           >
             Import
           </Button>
-          <Button className="ml-1" startIcon={<Launch />} variant={"contained"} color={"primary"}>
+          <Button
+            className="ml-1"
+            startIcon={<Launch />}
+            variant={"contained"}
+            color={"primary"}
+            onClick={setShowExport.bind(null, true)}
+          >
             Export
           </Button>
         </div>
@@ -150,6 +189,7 @@ const Header = () => {
 
       {importDialog}
       {addDialog}
+      {exportDialog}
     </>
   );
 };

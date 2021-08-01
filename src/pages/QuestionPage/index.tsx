@@ -61,7 +61,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
         }}
       >
         {({ values, errors, touched, handleChange, handleBlur, ...props }) => (
-          <form autoComplete="off" autoCorrect="off" onSubmit={props.handleSubmit}>
+          <form autoComplete="off" spellCheck={false} autoCorrect="off" onSubmit={props.handleSubmit}>
             <TextField
               label="Question"
               name="title"

@@ -1,6 +1,6 @@
 {
-  "name": "udt-test-cms",
-  "version": "0.1.0",
+  "name": "udt-quiz-manager",
+  "version": "1.0.0",
   "author": "Max Isaev",
   "private": true,
   "dependencies": {
