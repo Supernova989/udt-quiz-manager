@@ -108,7 +108,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
                       onBlur={handleBlur}
                       error={!!(errors.options && errors.options[o]) && !!(touched.options && touched.options[o])}
                       inputProps={{ maxLength: 100 }}
-                      helperText="Up to 160 characters"
+                      helperText="Up to 100 characters"
                     />
 
                     <Radio className={"ml-2"} value={k} title={"Mark as the correct answer"} />
