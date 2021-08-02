@@ -1,5 +1,5 @@
 import { Formik, FormikErrors, FormikProps } from "formik";
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Save } from "@material-ui/icons";
 import { Button, Divider, Radio, RadioGroup, TextField } from "@material-ui/core";
@@ -24,6 +24,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
   const classes = useStyles();
   const { items: questions } = useAppSelector((s) => s.question);
   const { items: languages } = useAppSelector((s) => s.language);
+  const [submitAttempt, setSubmitAttempt] = useState(false);
   const formRef = useRef<FormikProps<QuestionFormFields> | null>(null);
   const history = useHistory();
   const dispatch = useAppDispatch();
@@ -40,6 +41,11 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
       formRef.current.setFormikState((s) => ({ ...s, values: found }));
     }
   }, [questionId, languageId]);
+
+  const onSubmit = () => {
+    setSubmitAttempt(true);
+    formRef.current?.submitForm();
+  };
 
   const getOptionValue = (options: Question["options"], field: QuestionOptionName) => {
     return options[field];
@@ -111,7 +117,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
               })}
             </RadioGroup>
   
-            {Object.keys(errors).length > 0 && Object.keys({...touched, ...touched?.options }).length === Object.keys({...values, ...touched?.options }).length && (
+            {Object.keys(errors).length > 0 && submitAttempt && (
               <Alert severity={"error"} className={clsx("my-5")}>
                 <AlertTitle><strong>Error</strong></AlertTitle>
                 Please check the fields of the form and make sure you have selected the correct answer, and put "___" as a placeholder to the title.
@@ -129,7 +135,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
             >
               Back
             </Button>
-            <Button type={"submit"} startIcon={<Save />} color="primary" variant={"contained"}>
+            <Button type={"button"} onClick={onSubmit} startIcon={<Save />} color="primary" variant={"contained"}>
               Save
             </Button>
           </form>
