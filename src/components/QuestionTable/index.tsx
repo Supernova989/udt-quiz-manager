@@ -17,18 +17,17 @@ import {
   Link as MuiLink,
   Button,
 } from "@material-ui/core";
+import { Question } from "../../redux/question";
 
 interface Props {
   languageId: Language["id"];
+  questions: Question[];
 }
 
-const QuestionTable: FC<Props> = ({ languageId }) => {
+const QuestionTable: FC<Props> = ({ languageId, questions }) => {
   const classes = useStyles();
   const history = useHistory();
-  const { items } = useAppSelector((s) => s.question);
-
-  const questions = items.filter((i) => i.languageId === languageId);
-
+  
   return (
     <>
       <TableContainer component={Paper}>

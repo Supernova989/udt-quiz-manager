@@ -2,28 +2,28 @@ import React, { FC, useEffect } from "react";
 import { useAppSelector } from "../../hooks";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import QuestionTable from "../../components/QuestionTable";
+import { ROUTES } from "../../routes";
 
 interface RouteProps {
   id: string;
 }
 
 const LanguagePage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
+  const { params: { id } } = match;
+  const { items: languages } = useAppSelector((s) => s.language);
+  const { items: questions } = useAppSelector((s) => s.question);
   const history = useHistory();
-  const { items } = useAppSelector((s) => s.language);
-  const {
-    params: { id },
-  } = match!;
-
+  const languageId = parseInt(id, 10);
+  
   useEffect(() => {
-    const language = items.find((l) => l.id === parseInt(id, 10));
-    if (!language) {
-      history.replace("/");
+    if (!languages.find((l) => l.id === languageId)) {
+      history.replace(ROUTES.INDEX);
     }
   }, [id]);
 
   return (
     <>
-      <QuestionTable languageId={parseInt(id, 10)} />
+      <QuestionTable languageId={languageId} questions={questions.filter((i) => i.languageId === languageId)} />
     </>
   );
 };
