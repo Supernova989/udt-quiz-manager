@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as Yup from "yup";
+import { deleteLanguage } from "../actions";
 
 export const languageSchema = Yup.object({
   id: Yup.number().required(),
   order: Yup.number().required(),
-  total: Yup.number().required(),
   title: Yup.string().max(64).required(),
 });
 
@@ -16,14 +16,7 @@ export interface LanguageState {
 }
 
 const initialState: LanguageState = {
-  items: [
-    // {
-    //   id: 1,
-    //   order: 10,
-    //   title: "English",
-    //   total: 0,
-    // },
-  ],
+  items: [],
 };
 
 export const languageSlice = createSlice({
@@ -38,9 +31,14 @@ export const languageSlice = createSlice({
     },
     select: (state, { payload }: PayloadAction<number>) => {
       state.selected = payload;
-    },
+    }
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(deleteLanguage, (state, { payload: { id } }) => {
+        state.items = state.items.filter(i => i.id !== id);
+      });
+  },
 });
 
 export default languageSlice.reducer;

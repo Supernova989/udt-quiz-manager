@@ -10,8 +10,17 @@ import { languageSlice } from "../../redux/language";
 const StatisticsTable = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { items, selected } = useAppSelector((s) => s.language);
+  const { items: languages, selected } = useAppSelector((s) => s.language);
+  const { items: questions } = useAppSelector((s) => s.question);
   const dispatch = useAppDispatch();
+  
+  const getTotal = (id: number): number => {
+    return questions.reduce((acc, i) => {
+      const c = i.languageId === id ? 1 : 0;
+      return acc + c;
+    }, 0);
+  };
+  
   const onRowClick = (id: number) => {
     history.push(getLanguageUrl(id));
     dispatch(languageSlice.actions.select(id));
@@ -29,8 +38,7 @@ const StatisticsTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {items.length > 0 &&
-            items.map(({ id, title, total }) => (
+          {languages.map(({ id, title }) => (
               <TableRow
                 key={id}
                 className={clsx(classes.bodyRow, { [classes.selected]: id === selected })}
@@ -40,11 +48,12 @@ const StatisticsTable = () => {
                   <span>{title}</span>
                 </TableCell>
                 <TableCell align="right" component="td">
-                  {total}
+                  {getTotal(id)}
                 </TableCell>
               </TableRow>
-            ))}
-          {items.length === 0 && (
+            ))
+          }
+          {languages.length === 0 && (
             <TableRow>
               <TableCell component="td" colSpan={2} className="text-muted text-center">
                 No languages found

@@ -1,4 +1,4 @@
-import React, { AppBar, Button, Divider, Input, TextField, TextFieldProps, Typography } from "@material-ui/core";
+import React, { AppBar, Button, Divider, Input, TextField, Typography } from "@material-ui/core";
 import { useStyles } from "./styles";
 import { SystemUpdateAlt, Launch, Add } from "@material-ui/icons";
 import clsx from "clsx";
@@ -53,7 +53,6 @@ const Header = () => {
         initialValues={{
           id: getLanguageId(languages) + 1,
           order: getLanguageSort(languages) + 10,
-          total: 0,
           title: "",
         }}
         onSubmit={(values, formikHelpers) => {

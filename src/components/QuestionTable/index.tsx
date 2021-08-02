@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { Delete, Edit } from "@material-ui/icons";
 import { useStyles } from "./styles";
-import { useAppSelector } from "../../hooks";
+import { useAppDispatch } from "../../hooks";
 import { Language } from "../../redux/language";
 import { useHistory, Link } from "react-router-dom";
 import { getNewQuestionUrl, getQuestionUrl } from "../../shared/utils";
@@ -17,7 +17,7 @@ import {
   Link as MuiLink,
   Button,
 } from "@material-ui/core";
-import { Question } from "../../redux/question";
+import { Question, questionSlice } from "../../redux/question";
 
 interface Props {
   languageId: Language["id"];
@@ -27,6 +27,7 @@ interface Props {
 const QuestionTable: FC<Props> = ({ languageId, questions }) => {
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useAppDispatch();
   
   return (
     <>
@@ -54,8 +55,8 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
                     </IconButton>
                   </TableCell>
                   <TableCell component="td">
-                    <IconButton>
-                      <Delete color={"error"} />
+                    <IconButton onClick={() => dispatch(questionSlice.actions.delete([id]))}>
+                      <Delete color={"error"}/>
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -64,7 +65,7 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
               <TableRow>
                 <TableCell component="td" colSpan={4} className="text-muted text-center">
                   No questions found.{" "}
-                  <Link to={getNewQuestionUrl(languageId)} component={MuiLink}>
+                  <Link to={getNewQuestionUrl(languageId)} className={"MuiTypography-root MuiLink-root MuiTypography-colorPrimary"}>
                     Create one?
                   </Link>
                 </TableCell>
@@ -90,3 +91,13 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
 };
 
 export default QuestionTable;
+
+// <MuiLink
+//                     href={getNewQuestionUrl(languageId)}
+//                     onClick={(e: React.MouseEvent) => {
+//                       e.preventDefault();
+//                       history.push(getNewQuestionUrl(languageId));
+//                     }}
+//                   >
+//                     Create one?
+//                   </MuiLink>

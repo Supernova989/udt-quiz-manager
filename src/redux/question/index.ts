@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import * as Yup from "yup";
+import { deleteLanguage } from "../actions";
 
 export const questionSchema = Yup.object({
   id: Yup.number().required(),
@@ -23,44 +24,7 @@ export interface QuestionState {
 }
 
 const initialState: QuestionState = {
-  items: [
-    // {
-    //   id: 1,
-    //   title: "How ___ you?",
-    //   languageId: 1,
-    //   options: {
-    //     a1: "are",
-    //     a2: "is",
-    //     a3: "am",
-    //     a4: "not",
-    //   },
-    //   answer: "a1",
-    // },
-    // {
-    //   id: 2,
-    //   title: "How ___ I?",
-    //   languageId: 1,
-    //   options: {
-    //     a1: "are",
-    //     a2: "is",
-    //     a3: "am",
-    //     a4: "not",
-    //   },
-    //   answer: "a3",
-    // },
-    // {
-    //   id: 3,
-    //   title: "How ___ he?",
-    //   languageId: 2,
-    //   options: {
-    //     a1: "are",
-    //     a2: "is",
-    //     a3: "am",
-    //     a4: "not",
-    //   },
-    //   answer: "a2",
-    // },
-  ],
+  items: [],
 };
 
 export const questionSlice = createSlice({
@@ -79,8 +43,23 @@ export const questionSlice = createSlice({
         state.items.push(payload);
       }
     },
+    delete: (state, { payload }: PayloadAction<number[]>) => {
+      state.items = state.items.filter(i => {
+        for (let n = 0; n < payload.length; n++) {
+          if (i.id !== payload[n]) {
+            return true;
+          }
+        }
+        return false;
+      })
+    }
   },
-  extraReducers: (builder) => {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(deleteLanguage, (state, { payload: { id } }) => {
+        state.items = state.items.filter(i => i.languageId !== id);
+      });
+  },
 });
 
 export default questionSlice.reducer;

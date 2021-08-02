@@ -42,3 +42,11 @@ export function getQuestionUrl(questionId: number, languageId: number): string {
 export function getLanguageUrl(id: number): string {
   return ROUTES.LANGUAGE.replace(/:id/, id.toString());
 }
+
+export function isQuestionTitleValid(title: string) {
+  const split = title.replace(/\s\s+/g, " ").split(" ");
+  const count = split.reduce((acc, i) => {
+    return acc + (i === "___" ? 1 : 0);
+  }, 0);
+  return count === 1;
+}

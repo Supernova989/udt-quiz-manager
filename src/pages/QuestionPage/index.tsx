@@ -1,14 +1,16 @@
-import { Formik, FormikProps } from "formik";
+import { Formik, FormikErrors, FormikProps } from "formik";
 import React, { FC, useEffect, useRef } from "react";
 import { RouteComponentProps, useHistory } from "react-router-dom";
 import { Save } from "@material-ui/icons";
 import { Button, Divider, Radio, RadioGroup, TextField } from "@material-ui/core";
 import { Question, QuestionOptionName, questionSchema, questionSlice } from "../../redux/question";
-import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { getLanguageUrl, getQuestionId } from "../../shared/utils";
-import clsx from "clsx";
+import { getLanguageUrl, getQuestionId, isQuestionTitleValid } from "../../shared/utils";
 import { useStyles } from "./styles";
+import { Alert, AlertTitle } from "@material-ui/lab";
+import * as Yup from "yup";
+import clsx from "clsx";
+import { ROUTES } from "../../routes";
 
 interface RouteProps {
   languageId: string;
@@ -18,20 +20,22 @@ interface RouteProps {
 type QuestionFormFields = Yup.InferType<typeof questionSchema>;
 
 const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
-  const {
-    params: { languageId, questionId },
-  } = match;
+  const { params: { languageId, questionId }, } = match;
   const classes = useStyles();
-  const { items } = useAppSelector((s) => s.question);
+  const { items: questions } = useAppSelector((s) => s.question);
+  const { items: languages } = useAppSelector((s) => s.language);
   const formRef = useRef<FormikProps<QuestionFormFields> | null>(null);
   const history = useHistory();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    if (!languages.find((l) => l.id === parseInt(languageId, 10))) {
+      history.replace(ROUTES.INDEX);
+    }
     if (!questionId) {
       return;
     }
-    const found = items.find((i) => i.id === parseInt(questionId, 10));
+    const found = questions.find((i) => i.id === parseInt(questionId, 10));
     if (found && formRef.current) {
       formRef.current.setFormikState((s) => ({ ...s, values: found }));
     }
@@ -48,8 +52,15 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
       <Formik
         innerRef={formRef}
         validationSchema={questionSchema}
+        validate={(values) => {
+          const errors: FormikErrors<QuestionFormFields> = {};
+          if (!isQuestionTitleValid(values.title) && formRef.current?.touched.title) {
+            errors.title = "Title must contain a placeholder.";
+          }
+          return errors;
+        }}
         initialValues={{
-          id: getQuestionId(items) + 1,
+          id: getQuestionId(questions) + 1,
           title: "",
           answer: "",
           languageId: parseInt(languageId, 10),
@@ -68,6 +79,7 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
               value={values.title}
               onChange={handleChange}
               onBlur={handleBlur}
+              error={!!errors.title && touched.title}
               inputProps={{ maxLength: 160 }}
               fullWidth
               helperText="Up to 160 characters"
@@ -88,16 +100,24 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
                       value={getOptionValue(values.options, o)}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      inputProps={{ maxLength: 160 }}
+                      error={!!(errors.options && errors.options[o]) && !!(touched.options && touched.options[o])}
+                      inputProps={{ maxLength: 100 }}
                       helperText="Up to 160 characters"
                     />
 
-                    <Radio className={"ml-2"} value={k} />
+                    <Radio className={"ml-2"} value={k} title={"Mark as the correct answer"}/>
                   </div>
                 );
               })}
             </RadioGroup>
-
+  
+            {Object.keys(errors).length > 0 && Object.keys({...touched, ...touched?.options }).length === Object.keys({...values, ...touched?.options }).length && (
+              <Alert severity={"error"} className={clsx("my-5")}>
+                <AlertTitle><strong>Error</strong></AlertTitle>
+                Please check the fields of the form and make sure you have selected the correct answer, and put "___" as a placeholder to the title.
+              </Alert>
+            )}
+            
             <Divider className={"my-2"} />
 
             <Button
