@@ -45,7 +45,7 @@ const StatisticsTable = () => {
               onClick={onRowClick.bind(null, id)}
             >
               <TableCell component="td">
-                <span>{title}</span>
+                <span className={classes.title}>{title}</span>
               </TableCell>
               <TableCell align="right" component="td">
                 {getTotal(id)}

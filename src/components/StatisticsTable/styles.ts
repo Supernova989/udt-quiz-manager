@@ -13,5 +13,8 @@ export const useStyles = makeStyles((theme: Theme) =>
         backgroundColor: blue[50],
       },
     },
+    title: {
+      wordBreak: "break-word"
+    }
   })
 );
