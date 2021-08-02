@@ -5,7 +5,7 @@ import { deleteLanguage } from "../actions";
 export const languageSchema = Yup.object({
   id: Yup.number().required(),
   order: Yup.number().required(),
-  title: Yup.string().max(64).required(),
+  title: Yup.string().max(64).required().trim(),
 });
 
 export type Language = Yup.InferType<typeof languageSchema>;
@@ -31,13 +31,12 @@ export const languageSlice = createSlice({
     },
     select: (state, { payload }: PayloadAction<number>) => {
       state.selected = payload;
-    }
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(deleteLanguage, (state, { payload: { id } }) => {
-        state.items = state.items.filter(i => i.id !== id);
-      });
+    builder.addCase(deleteLanguage, (state, { payload: { id } }) => {
+      state.items = state.items.filter((i) => i.id !== id);
+    });
   },
 });
 

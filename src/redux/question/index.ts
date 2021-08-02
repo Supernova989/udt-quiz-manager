@@ -4,13 +4,13 @@ import { deleteLanguage } from "../actions";
 
 export const questionSchema = Yup.object({
   id: Yup.number().required(),
-  title: Yup.string().max(160).required(),
+  title: Yup.string().max(160).required().trim(),
   languageId: Yup.number().required(),
   options: Yup.object({
-    a1: Yup.string().max(100).required(),
-    a2: Yup.string().max(100).required(),
-    a3: Yup.string().max(100).required(),
-    a4: Yup.string().max(100).required(),
+    a1: Yup.string().max(100).required().trim(),
+    a2: Yup.string().max(100).required().trim(),
+    a3: Yup.string().max(100).required().trim(),
+    a4: Yup.string().max(100).required().trim(),
   }).required(),
   answer: Yup.string().required(),
 });
@@ -44,21 +44,20 @@ export const questionSlice = createSlice({
       }
     },
     delete: (state, { payload }: PayloadAction<number[]>) => {
-      state.items = state.items.filter(i => {
+      state.items = state.items.filter((i) => {
         for (let n = 0; n < payload.length; n++) {
           if (i.id !== payload[n]) {
             return true;
           }
         }
         return false;
-      })
-    }
+      });
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(deleteLanguage, (state, { payload: { id } }) => {
-        state.items = state.items.filter(i => i.languageId !== id);
-      });
+    builder.addCase(deleteLanguage, (state, { payload: { id } }) => {
+      state.items = state.items.filter((i) => i.languageId !== id);
+    });
   },
 });
 

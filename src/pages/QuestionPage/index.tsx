@@ -20,7 +20,7 @@ interface RouteProps {
 type QuestionFormFields = Yup.InferType<typeof questionSchema>;
 
 const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
-  const { params: { languageId, questionId }, } = match;
+  const { params: { languageId, questionId } } = match;
   const classes = useStyles();
   const { items: questions } = useAppSelector((s) => s.question);
   const { items: languages } = useAppSelector((s) => s.language);
@@ -111,19 +111,22 @@ const QuestionPage: FC<RouteComponentProps<RouteProps>> = ({ match }) => {
                       helperText="Up to 160 characters"
                     />
 
-                    <Radio className={"ml-2"} value={k} title={"Mark as the correct answer"}/>
+                    <Radio className={"ml-2"} value={k} title={"Mark as the correct answer"} />
                   </div>
                 );
               })}
             </RadioGroup>
-  
+
             {Object.keys(errors).length > 0 && submitAttempt && (
               <Alert severity={"error"} className={clsx("my-5")}>
-                <AlertTitle><strong>Error</strong></AlertTitle>
-                Please check the fields of the form and make sure you have selected the correct answer, and put "___" as a placeholder to the title.
+                <AlertTitle>
+                  <strong>Error</strong>
+                </AlertTitle>
+                Please check the fields of the form and make sure you have selected the correct answer, and put "___" as
+                a placeholder to the title.
               </Alert>
             )}
-            
+
             <Divider className={"my-2"} />
 
             <Button

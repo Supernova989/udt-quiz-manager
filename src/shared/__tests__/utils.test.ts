@@ -69,5 +69,4 @@ describe("function " + isQuestionTitleValid.name, () => {
     expect(isQuestionTitleValid("?")).toBeFalsy();
     expect(isQuestionTitleValid("")).toBeFalsy();
   });
-  
 });

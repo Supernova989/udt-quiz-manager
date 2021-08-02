@@ -28,7 +28,7 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useAppDispatch();
-  
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -56,7 +56,7 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
                   </TableCell>
                   <TableCell component="td">
                     <IconButton onClick={() => dispatch(questionSlice.actions.delete([id]))}>
-                      <Delete color={"error"}/>
+                      <Delete color={"error"} />
                     </IconButton>
                   </TableCell>
                 </TableRow>
@@ -65,7 +65,10 @@ const QuestionTable: FC<Props> = ({ languageId, questions }) => {
               <TableRow>
                 <TableCell component="td" colSpan={4} className="text-muted text-center">
                   No questions found.{" "}
-                  <Link to={getNewQuestionUrl(languageId)} className={"MuiTypography-root MuiLink-root MuiTypography-colorPrimary"}>
+                  <Link
+                    to={getNewQuestionUrl(languageId)}
+                    className={"MuiTypography-root MuiLink-root MuiTypography-colorPrimary"}
+                  >
                     Create one?
                   </Link>
                 </TableCell>

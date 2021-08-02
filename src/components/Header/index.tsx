@@ -18,9 +18,7 @@ const importSchema = Yup.object({
 
 type ImportFormFields = Yup.InferType<typeof importSchema>;
 
-const addSchema = languageSchema;
-
-type AddFormFields = Yup.InferType<typeof addSchema>;
+type AddFormFields = Yup.InferType<typeof languageSchema>;
 
 const Header = () => {
   const classes = useStyles();
@@ -49,14 +47,14 @@ const Header = () => {
     >
       <Formik
         innerRef={formAddRef}
-        validationSchema={addSchema}
+        validationSchema={languageSchema}
         initialValues={{
           id: getLanguageId(languages) + 1,
           order: getLanguageSort(languages) + 10,
           title: "",
         }}
-        onSubmit={(values, formikHelpers) => {
-          dispatch(languageSlice.actions.save(values));
+        onSubmit={(values) => {
+          dispatch(languageSlice.actions.save({ ...values, title: values.title.trim() }));
           setShowAdd(false);
         }}
       >
@@ -68,6 +66,7 @@ const Header = () => {
               value={values.title}
               onChange={handleChange}
               onBlur={handleBlur}
+              inputProps={{ maxLength: 64 }}
               fullWidth
             />
           </form>
